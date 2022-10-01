@@ -1,0 +1,34 @@
+{
+  "name": "haku",
+  "version": "0.0.0",
+  "description": "CLI tool for building clean hexagonal backend HTTP APIs.",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "watch": "npx tsc -w",
+    "build": "npx tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "gts lint",
+    "clean": "gts clean",
+    "compile": "tsc",
+    "fix": "gts fix",
+    "prepare": "npm run compile",
+    "pretest": "npm run compile",
+    "posttest": "npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marinoandrea/haku.git"
+  },
+  "author": "Andrea Marino",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/marinoandrea/haku/issues"
+  },
+  "homepage": "https://github.com/marinoandrea/haku#readme",
+  "devDependencies": {
+    "gts": "^3.1.1",
+    "typescript": "^4.8.4",
+    "@types/node": "^14.11.2"
+  }
+}
