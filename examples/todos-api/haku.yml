@@ -1,0 +1,14 @@
+version: 0.0.1
+
+compilation:
+  language: typescript
+  engine: 
+    lib: express
+  directories:
+    routing: "./src/server"
+    controllers: "./src/controllers"
+    useCases: "./src/use-cases"
+
+services:
+  todos:
+    specPath: "./services/todos.yml"

@@ -1,0 +1,159 @@
+openapi: 3.1.0
+
+info:
+  title: Todo Example
+  version: 1.0.0
+
+paths:
+  /todos:
+    get:
+      security:
+        - BearerAuth: ["read"]
+      parameters:
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: number
+            minimum: 1
+            maximum: 50
+      responses:
+        200:
+          description: "Retrieve all the todos"
+          content:
+            application/json:
+              schema:
+                type: array
+                maxItems: 50
+                uniqueItems: true
+                items:
+                  $ref: "#/components/schemas/todo"
+    
+    post:
+      security:
+        - BearerAuth: ["write"]
+      responses:
+        201:
+          description: "Create a todo"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/todo"
+        400:
+          description: "Invalid data provided"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  nullable: false
+                text:
+                  type: string
+                  nullable: true
+
+  /todos/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+
+    put:
+      security:
+        - BearerAuth: ["write"]
+      responses:
+        200:
+          description: "Edit a todo"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/todo"
+        400:
+          description: "Invalid data provided"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+        404:
+          description: "Resource not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  nullable: true
+                text:
+                  type: string
+                  nullable: true
+      
+    delete:
+      security:
+        - BearerAuth: ["write"]
+      responses:
+        204:
+          description: "Edit a todo"
+        404:
+          description: "Resource not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+              
+components:
+  schemas:
+    todo:
+      type: object
+      properties:
+        id:
+          type: string
+          nullable: false
+        created_at:
+          type: number
+          nullable: false
+        updated_at:
+          type: number
+          nullable: false
+        user_id:
+          type: string
+          nullable: false
+        text:
+          type: string
+          nullable: true
+        title:
+          type: string
+          nullable: false
+
+    error:
+      type: object
+      properties:
+        msg:
+          type: string
+          nullable: true
+        code:
+          type: string
+          nullable: false
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer

@@ -1,0 +1,1 @@
+export const OPENAPI_SUPPORTED_VERSION = '3.1.0';
